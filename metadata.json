@@ -1,0 +1,6 @@
+{
+  "name": "ذروة كينتك للتدريب الرياضي",
+  "description": "منصة تدريب رياضي وتغذية مخصصة باللغة العربية لبناء القوة وتحسين الأداء الجسدي.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

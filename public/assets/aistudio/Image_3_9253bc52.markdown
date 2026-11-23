@@ -1,0 +1,232 @@
+---
+name: Kinetic Slate
+colors:
+  surface: '#0f131c'
+  surface-dim: '#0f131c'
+  surface-bright: '#353943'
+  surface-container-lowest: '#0a0e17'
+  surface-container-low: '#181c25'
+  surface-container: '#1c2029'
+  surface-container-high: '#262a34'
+  surface-container-highest: '#31353f'
+  on-surface: '#dfe2ef'
+  on-surface-variant: '#e6bdb8'
+  inverse-surface: '#dfe2ef'
+  inverse-on-surface: '#2c303a'
+  outline: '#ad8883'
+  outline-variant: '#5d403c'
+  surface-tint: '#ffb4aa'
+  primary: '#ffb4aa'
+  on-primary: '#690003'
+  primary-container: '#ff5446'
+  on-primary-container: '#5c0002'
+  inverse-primary: '#bf070f'
+  secondary: '#edfc32'
+  on-secondary: '#2f3300'
+  secondary-container: '#d0df00'
+  on-secondary-container: '#596000'
+  tertiary: '#c0c6d9'
+  on-tertiary: '#29303f'
+  tertiary-container: '#8a91a2'
+  on-tertiary-container: '#232a38'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#ffdad5'
+  primary-fixed-dim: '#ffb4aa'
+  on-primary-fixed: '#410001'
+  on-primary-fixed-variant: '#930007'
+  secondary-fixed: '#deed1e'
+  secondary-fixed-dim: '#c2d000'
+  on-secondary-fixed: '#1b1d00'
+  on-secondary-fixed-variant: '#454b00'
+  tertiary-fixed: '#dce2f6'
+  tertiary-fixed-dim: '#c0c6d9'
+  on-tertiary-fixed: '#151c29'
+  on-tertiary-fixed-variant: '#404756'
+  background: '#0f131c'
+  on-background: '#dfe2ef'
+  surface-variant: '#31353f'
+typography:
+  display-xl:
+    fontFamily: Cairo
+    fontSize: 56px
+    fontWeight: '700'
+    lineHeight: 68px
+    letterSpacing: -0.02em
+  display-xl-mobile:
+    fontFamily: Cairo
+    fontSize: 36px
+    fontWeight: '700'
+    lineHeight: 44px
+    letterSpacing: -0.01em
+  headline-lg:
+    fontFamily: Cairo
+    fontSize: 40px
+    fontWeight: '700'
+    lineHeight: 52px
+    letterSpacing: -0.01em
+  headline-lg-mobile:
+    fontFamily: Cairo
+    fontSize: 28px
+    fontWeight: '700'
+    lineHeight: 36px
+  headline-md:
+    fontFamily: Cairo
+    fontSize: 28px
+    fontWeight: '700'
+    lineHeight: 38px
+  headline-sm:
+    fontFamily: Cairo
+    fontSize: 22px
+    fontWeight: '600'
+    lineHeight: 30px
+  body-lg:
+    fontFamily: Cairo
+    fontSize: 18px
+    fontWeight: '400'
+    lineHeight: 30px
+  body-md:
+    fontFamily: Cairo
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 26px
+  body-sm:
+    fontFamily: Cairo
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: 22px
+  metric-lg:
+    fontFamily: Inter
+    fontSize: 36px
+    fontWeight: '700'
+    lineHeight: 42px
+    letterSpacing: -0.02em
+  accent-display:
+    fontFamily: Oswald
+    fontSize: 20px
+    fontWeight: '700'
+    lineHeight: 24px
+    letterSpacing: 0.08em
+  label-md:
+    fontFamily: Cairo
+    fontSize: 14px
+    fontWeight: '600'
+    lineHeight: 20px
+  label-sm:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '600'
+    lineHeight: 16px
+    letterSpacing: 0.04em
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  gutter: 1.5rem
+  margin: 1.5rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 3rem
+---
+
+## Brand & Style
+
+This design system is built for a high-converting Arabic (RTL) online fitness and athletic coaching platform. The target audience consists of ambitious, results-driven individuals seeking structured athletic transformation, personalized coaching, and measurable performance gains. The UI must evoke immediate authority, discipline, and kinetic momentum—balancing the raw intensity of elite sports performance with the clarity and trust of a modern digital coaching product.
+
+The visual language blends **Glassmorphism** with **High-Contrast / Bold** athletic styling:
+- **Dark Athletic Foundation:** Deep, glossy slate navy-gray surfaces establish a focused, distraction-free training environment that feels premium and performance-oriented.
+- **Glassmorphic Depth:** Elevated, frosted-glass cards (`backdrop-filter: blur(16px)`) with subtle specular borders create a layered, tactile hierarchy for coaching tiers, transformation metrics, and program modules.
+- **Kinetic Accents:** High-energy red-orange gradients drive primary conversion actions, while electric gold-lime highlights key performance metrics, active states, and achievement badges.
+- **RTL-First Directionality:** All layouts, reading flows, directional icons, and typographic alignments are engineered natively for right-to-left Arabic comprehension, paired with tabular numerals and bold English display accents for universal athletic impact.
+
+## Colors
+
+The palette follows a strict **60-30-10 dark athletic distribution** to maximize visual hierarchy and conversion focus:
+
+- **60% Primary Backgrounds (Slate Navy-Gray):**
+  - Base Canvas: `#12161F`
+  - Secondary Section Surface: `#161B26`
+  - Elevated Section / Hero Surface: `#181E2A`
+  - These glossy, cool-toned dark surfaces absorb visual noise and make foreground content and photography pop.
+
+- **30% Elevated Glassmorphic Surfaces (Cool Slate):**
+  - Card & Container Fill: `#1E2533` (at 75%–85% opacity with `backdrop-filter: blur(16px)`)
+  - Specular Border: `1px solid rgba(255, 255, 255, 0.1)`
+  - Used for pricing tiers, coach bios, transformation cards, and interactive modules.
+
+- **10% High-Impact Accents:**
+  - **Primary CTA Gradient:** `linear-gradient(135deg, #FF4136, #FF7B00)` — reserved exclusively for primary conversion buttons, hero CTAs, and urgent action triggers.
+  - **Athletic Gold-Lime:** `#E2F124` — used for achievement badges, active tab/toggle states, progress indicators, and key performance metrics.
+
+- **Typography & Semantic Neutrals:**
+  - **Headings:** Crisp White (`#FFFFFF`) for maximum contrast.
+  - **Body Copy:** Cool Slate Gray (`#CBD5E1`) for comfortable long-form RTL reading.
+  - **Muted / Captions:** `#94A3B8` for secondary metadata and disclaimers.
+
+## Typography
+
+The typographic system is engineered for **Arabic RTL clarity** paired with **precision athletic metrics**:
+
+- **Arabic Primary (`Cairo`):** Used for all headlines (`700` Bold), subheadings (`600` SemiBold), and body copy (`400` Regular). `Cairo` provides clean geometric proportions and generous x-height that remain crisp on dark slate backgrounds.
+- **Tabular Numerals (`Inter`):** Applied to all statistics, pricing, countdowns, and performance metrics (`font-variant-numeric: tabular-nums`) so numbers align cleanly in comparison tables and transformation cards.
+- **English Display Accents (`Oswald`):** Used sparingly in uppercase with wide tracking (`0.08em`) for English athletic watermarks, program tier codes (e.g., `PRO`, `ELITE`), and subtle background editorial accents.
+- **RTL Alignment:** All text blocks default to `dir="rtl"` and `text-align: right`. Line heights are slightly more generous than Latin defaults (`1.5x`–`1.65x` for body) to accommodate Arabic diacritics and ascenders/descenders.
+
+## Layout & Spacing
+
+The layout uses a **12-column fluid grid** with a maximum container width of `1280px` to maintain disciplined alignment across hero sections, transformation galleries, and pricing comparisons.
+
+- **Desktop (`>= 1024px`):** 12-column grid with `1.5rem` (`24px`) gutters and generous `4rem`–`6rem` vertical section padding to let dark slate surfaces breathe.
+- **Tablet (`768px` – `1023px`):** 8-column grid with `1.25rem` (`20px`) gutters. Multi-column comparison cards reflow into 2-column grids.
+- **Mobile (`< 768px`):** 4-column grid with `1rem` (`16px`) gutters and `1.5rem` (`24px`) outer margins. All multi-column feature and pricing grids stack vertically, with primary CTAs anchored cleanly within thumb reach.
+- **RTL Flow:** Grid columns, flex-row directions, and horizontal scroll containers flow naturally from right to left.
+
+## Elevation & Depth
+
+Visual hierarchy is achieved through **Glassmorphism** and **Tonal Layering** rather than heavy drop shadows:
+
+- **Base Canvas (`#12161F` / `#161B26` / `#181E2A`):** Alternating dark slate tones separate major landing page bands without harsh dividers.
+- **Glassmorphic Cards (`#1E2533`):** Elevated containers use semi-transparent cool slate fills paired with `backdrop-filter: blur(16px)` and a crisp `1px solid rgba(255, 255, 255, 0.1)` specular border to catch ambient light.
+- **Interactive Glow:** Primary red-orange CTA buttons and active gold-lime badges emit a subtle, diffused outer glow (`0 8px 24px rgba(255, 65, 54, 0.25)` for CTAs; `0 0 16px rgba(226, 241, 36, 0.2)` for active metrics) to draw the eye immediately to conversion points.
+
+## Shapes
+
+The shape language uses a **Rounded (`0.5rem` base)** athletic geometry—structured enough to feel disciplined and technical, yet smooth enough to feel modern and approachable:
+
+- **Buttons & Inputs:** `0.5rem` (`8px`) border radius for crisp, actionable edges.
+- **Glassmorphic Cards & Modals:** `1rem` (`16px`, `rounded-lg`) border radius to soften large elevated surfaces.
+- **Hero Feature Containers & Media:** `1.5rem` (`24px`, `rounded-xl`) for sweeping, high-impact visual framing.
+- **Badges & Pills:** Full pill (`9999px`) for status tags, discount badges, and category chips.
+
+## Components
+
+- **Primary CTA Buttons:**
+  - Background: `linear-gradient(135deg, #FF4136, #FF7B00)`
+  - Text: `#FFFFFF`, `Cairo` Bold (`700`), `16px`.
+  - Hover State: Slight upward lift (`translateY(-2px)`) with enhanced red-orange glow (`0 10px 28px rgba(255, 65, 54, 0.35)`).
+- **Secondary / Ghost Buttons:**
+  - Background: `rgba(30, 37, 51, 0.6)` with `1px solid rgba(255, 255, 255, 0.15)`.
+  - Text: `#FFFFFF`. Hover transitions border to `#E2F124`.
+- **Athletic Badges & Chips:**
+  - Active/Highlight Chips: `#E2F124` background with `#12161F` dark text (`Cairo` SemiBold) for maximum contrast.
+  - Neutral Tags: `#1E2533` with `1px solid rgba(255, 255, 255, 0.1)` and `#CBD5E1` text.
+- **Glassmorphic Coaching Cards:**
+  - Surface: `rgba(30, 37, 51, 0.78)`, `backdrop-filter: blur(16px)`, `1px solid rgba(255, 255, 255, 0.1)`, `1rem` radius, `1.5rem` internal padding.
+  - Featured/Popular Tier: Highlighted with a `1px solid #E2F124` border and a top-anchored gold-lime badge.
+- **Input Fields & Forms (RTL):**
+  - Surface: `#12161F` inset against `#1E2533` cards, `1px solid rgba(255, 255, 255, 0.12)` border, `0.5rem` radius.
+  - Focus State: Border transitions to `#E2F124` with a subtle `2px` outer ring.
+  - Labels and placeholders are right-aligned (`text-align: right`).
+- **Checkboxes & Radio Toggles:**
+  - Unchecked: `#12161F` fill with `rgba(255, 255, 255, 0.2)` border.
+  - Checked: `#E2F124` fill with `#12161F` checkmark/indicator.
+- **Transformation & Metric Lists:**
+  - Vertical lists use `1rem` (`space-md`) gaps, pairing `#E2F124` checkmarks or `Inter` tabular numerals on the right (start in RTL) with `#CBD5E1` descriptive copy.
