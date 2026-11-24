@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { getTransformationCases } from '../data/coachingData';
+import type { TransformationCase } from '../data/coachingData';
 import type { Language } from '../utils/coachingMath';
 
 type TransformationFilter = 'all' | 'fat_loss' | 'muscle_gain';
 
 interface TransformationsSectionProps {
   lang: Language;
+  cases: TransformationCase[];
 }
 
-export function TransformationsSection({ lang }: TransformationsSectionProps) {
+export function TransformationsSection({ lang, cases }: TransformationsSectionProps) {
   const [filter, setFilter] = useState<TransformationFilter>('all');
-  const cases = getTransformationCases(lang);
 
   const visibleCases =
     filter === 'all' ? cases : cases.filter((c) => c.goalCategory === filter);
@@ -137,7 +137,7 @@ export function TransformationsSection({ lang }: TransformationsSectionProps) {
                     </div>
                     <div>
                       <span className="block text-xs text-[#94A3B8] mb-1">{t.net}</span>
-                      <span className="tabular-metric text-lg sm:text-xl font-bold text-white">
+                      <span className="tabular-metric block text-sm sm:text-xl font-bold text-white leading-snug">
                         {item.bodyFatDelta}
                       </span>
                     </div>

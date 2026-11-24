@@ -9,13 +9,12 @@ import {
   Scale,
   Sparkles,
 } from 'lucide-react';
-import { getCoachingTiers } from '../data/coachingData';
+import type { CoachingTier } from '../data/coachingData';
 import {
   buildWhatsAppUrl,
   calculateNutritionPlan,
   formatPlanWhatsAppMessage,
   formatTierPricing,
-  PERSONAL_WHATSAPP_NUMBER,
   validateAssessmentBiometrics,
   validateLeadForm,
   type ActivityLevel,
@@ -41,6 +40,8 @@ export interface EnrolledAthletePlan {
 
 interface AssessmentScreenProps {
   lang: Language;
+  tiers: CoachingTier[];
+  whatsappNumber: string;
   initialGoal: TrainingGoal;
   initialTier: TierCode | null;
   billingCycle: BillingCycle;
@@ -52,6 +53,8 @@ interface AssessmentScreenProps {
 
 export function AssessmentScreen({
   lang,
+  tiers,
+  whatsappNumber,
   initialGoal,
   initialTier,
   billingCycle,
@@ -78,7 +81,6 @@ export function AssessmentScreen({
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [enrolledSuccess, setEnrolledSuccess] = useState<EnrolledAthletePlan | null>(null);
 
-  const tiers = getCoachingTiers(lang);
   const BackArrow = lang === 'ar' ? ArrowRight : ArrowLeft;
 
   const numericAssessment: AthleteAssessmentInput = useMemo(
@@ -162,18 +164,18 @@ export function AssessmentScreen({
           enrolledDesc1: 'Welcome,',
           enrolledDesc2: 'Your targets have been saved',
           enrolledDesc3: 'on tier',
-          enrolledCheck1: 'Your Client Portal & workout log are now unlocked',
-          enrolledCheck2: 'Coach Tariq will review your profile within 24 hours',
+          enrolledCheck1: 'Your plan numbers are saved—sign in to the Client Portal using credentials from your coach',
+          enrolledCheck2: 'Coach Tariq will review your profile and prepare your portal account within 24 hours',
           sendWaBtn: 'Send My Plan Details via WhatsApp',
-          openPortalBtn: 'Enter Client Portal Now',
+          openPortalBtn: 'Sign In to Client Portal',
           enrollTitle: 'Confirm & Save Your Plan',
           perMonth: 'SAR/mo',
-          enrollSub: 'Your numbers will sync directly with the Client Portal.',
+          enrollSub: 'Save your calculated numbers and send them to your coach to provision your portal account.',
           nameLabel: 'Full Name',
           namePlaceholder: 'Your full name',
           phoneLabel: 'WhatsApp Number',
           emailLabel: 'Email Address',
-          submitBtn: 'Save My Plan & Activate Portal',
+          submitBtn: 'Save My Plan & Continue',
         }
       : {
           back: 'العودة إلى الرئيسية',
@@ -230,18 +232,18 @@ export function AssessmentScreen({
           enrolledDesc1: 'أهلاً بك يا',
           enrolledDesc2: 'تم حفظ أهدافك',
           enrolledDesc3: 'على باقة',
-          enrolledCheck1: 'تم فتح بوابة المتدرب الخاصة بك وجدول التمارين فوراً',
-          enrolledCheck2: 'سيراجع الكابتن طارق ملفك ويتواصل معك خلال 24 ساعة',
+          enrolledCheck1: 'تم حفظ أرقام خطتك — سجّل الدخول لبوابة المتدرب باستخدام بيانات الحساب المزوّدة من الإدارة',
+          enrolledCheck2: 'سيراجع الكابتن طارق ملفك ويجهز حساب البوابة الخاص بك خلال 24 ساعة',
           sendWaBtn: 'إرسال تفاصيل خطتي على واتساب',
-          openPortalBtn: 'الدخول إلى بوابة المتدرب الآن',
+          openPortalBtn: 'تسجيل الدخول إلى بوابة المتدرب',
           enrollTitle: 'تأكيد الاشتراك وحفظ الخطة',
           perMonth: 'ر.س/شهر',
-          enrollSub: 'سيتم ربط أرقامك ببوابة المتدرب مباشرة.',
+          enrollSub: 'احفظ أرقامك وأرسلها للمدرب لإصدار بيانات دخولك إلى بوابة المتدرب.',
           nameLabel: 'الاسم الكامل',
           namePlaceholder: 'الاسم الثلاثي',
           phoneLabel: 'رقم الواتساب',
           emailLabel: 'البريد الإلكتروني',
-          submitBtn: 'حفظ خطتي وتفعيل بوابة المتدرب',
+          submitBtn: 'حفظ خطتي والمتابعة',
         };
 
   const handleEnrollSubmit = (e: FormEvent) => {
@@ -698,7 +700,7 @@ export function AssessmentScreen({
                           },
                           lang
                         ),
-                        PERSONAL_WHATSAPP_NUMBER
+                        whatsappNumber
                       )}
                       target="_blank"
                       rel="noopener noreferrer"

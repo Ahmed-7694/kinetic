@@ -1,29 +1,30 @@
-import { COACH_PORTRAIT_URL, getCoachProfile } from '../data/coachingData';
+import { COACH_PORTRAIT_URL } from '../data/coachingData';
 import type { Language } from '../utils/coachingMath';
+import type { CoachProfileContent } from '../utils/cmsSchema';
 import { ImageWithFallback } from './ImageWithFallback';
 
 interface CoachSectionProps {
   lang: Language;
+  profile: CoachProfileContent;
   onOpenPortalPreview: () => void;
 }
 
-export function CoachSection({ lang, onOpenPortalPreview }: CoachSectionProps) {
-  const profile = getCoachProfile(lang);
+export function CoachSection({ lang, profile, onOpenPortalPreview }: CoachSectionProps) {
 
   const t =
     lang === 'en'
       ? {
           kicker: 'Coaching Leadership & Credentials',
           splitHeading: 'Sample weekly split inside the Client Portal:',
-          previewNote: 'Preview the interactive Client Portal & workout log before enrolling',
-          previewBtn: 'Preview Client Portal',
+          previewNote: 'Have your athlete credentials ready? Sign in to access your Client Portal & workout log',
+          previewBtn: 'Client Portal Sign In',
           imgAlt: 'Portrait of Coach Tariq Al-Harbi, certified strength and conditioning specialist',
         }
       : {
           kicker: 'القيادة التدريبية والخبرة الميدانية',
           splitHeading: 'نموذج توزيع الحصص الأسبوعي داخل بوابة المتدرب:',
-          previewNote: 'يمكنك معاينة بوابة المتدرب التفاعلية وجدول التمارين قبل الاشتراك',
-          previewBtn: 'معاينة بوابة المتدرب',
+          previewNote: 'هل لديك حساب متدرب من الإدارة؟ سجّل الدخول لمتابعة جدول التمارين والوزن',
+          previewBtn: 'دخول بوابة المتدرب',
           imgAlt: 'صورة الكابتن طارق الحربي مدرب القوة والتكييف',
         };
 

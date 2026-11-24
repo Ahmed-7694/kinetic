@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { getCoachingTiers } from '../data/coachingData';
+import type { CoachingTier } from '../data/coachingData';
 import {
   formatTierPricing,
   type BillingCycle,
@@ -9,6 +9,7 @@ import {
 
 interface PricingSectionProps {
   lang: Language;
+  tiers: CoachingTier[];
   billingCycle: BillingCycle;
   onChangeBillingCycle: (cycle: BillingCycle) => void;
   onSelectTier: (tier: TierCode) => void;
@@ -16,11 +17,11 @@ interface PricingSectionProps {
 
 export function PricingSection({
   lang,
+  tiers,
   billingCycle,
   onChangeBillingCycle,
   onSelectTier,
 }: PricingSectionProps) {
-  const tiers = getCoachingTiers(lang);
 
   const t =
     lang === 'en'

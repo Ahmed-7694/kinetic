@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
-import { getProgramTracks } from '../data/coachingData';
+import type { ProgramTrack } from '../data/coachingData';
 import type { Language, TrainingGoal } from '../utils/coachingMath';
 import { ImageWithFallback } from './ImageWithFallback';
 
 interface ProgramsSectionProps {
   lang: Language;
+  tracks: ProgramTrack[];
   onSelectGoalForAssessment: (goal: TrainingGoal) => void;
 }
 
-export function ProgramsSection({ lang, onSelectGoalForAssessment }: ProgramsSectionProps) {
+export function ProgramsSection({
+  lang,
+  tracks,
+  onSelectGoalForAssessment,
+}: ProgramsSectionProps) {
   const [selectedGoal, setSelectedGoal] = useState<TrainingGoal>('fat_loss');
-  const tracks = getProgramTracks(lang);
   const activeProgram = tracks.find((track) => track.id === selectedGoal) ?? tracks[0];
   const ForwardArrow = lang === 'ar' ? ArrowLeft : ArrowRight;
 

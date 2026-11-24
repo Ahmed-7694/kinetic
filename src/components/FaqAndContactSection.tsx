@@ -1,21 +1,26 @@
 import { useState, type FormEvent } from 'react';
 import { ChevronDown, CheckCircle2, MessageCircle } from 'lucide-react';
-import { getFaqItems } from '../data/coachingData';
+import type { FaqItem } from '../data/coachingData';
 import {
   buildWhatsAppUrl,
   formatConsultationWhatsAppMessage,
-  PERSONAL_WHATSAPP_NUMBER,
   validateLeadForm,
   type Language,
 } from '../utils/coachingMath';
 
 interface FaqAndContactSectionProps {
   lang: Language;
+  faqs: FaqItem[];
+  whatsappNumber: string;
 }
 
-export function FaqAndContactSection({ lang }: FaqAndContactSectionProps) {
-  const faqItems = getFaqItems(lang);
-  const [openFaqId, setOpenFaqId] = useState<string>(faqItems[0].id);
+export function FaqAndContactSection({
+  lang,
+  faqs,
+  whatsappNumber,
+}: FaqAndContactSectionProps) {
+  const faqItems = faqs;
+  const [openFaqId, setOpenFaqId] = useState<string>(faqItems[0]?.id ?? '');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -99,7 +104,7 @@ export function FaqAndContactSection({ lang }: FaqAndContactSectionProps) {
       },
       lang
     );
-    const whatsappUrl = buildWhatsAppUrl(message, PERSONAL_WHATSAPP_NUMBER);
+    const whatsappUrl = buildWhatsAppUrl(message, whatsappNumber);
     setSubmittedLead({
       name: name.trim(),
       whatsappUrl,
@@ -168,7 +173,7 @@ export function FaqAndContactSection({ lang }: FaqAndContactSectionProps) {
                 <p className="text-sm text-[#CBD5E1] leading-relaxed">
                   {t.successDesc} (
                   <span dir="ltr" className="tabular-metric font-bold text-white">
-                    {PERSONAL_WHATSAPP_NUMBER}
+                    {whatsappNumber}
                   </span>
                   ).
                 </p>
@@ -270,7 +275,7 @@ export function FaqAndContactSection({ lang }: FaqAndContactSectionProps) {
                 </button>
                 <div className="pt-2 text-center">
                   <a
-                    href={buildWhatsAppUrl(t.quickWaMsg, PERSONAL_WHATSAPP_NUMBER)}
+                    href={buildWhatsAppUrl(t.quickWaMsg, whatsappNumber)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#94A3B8] hover:text-[#E2F124] transition-colors"
@@ -279,7 +284,7 @@ export function FaqAndContactSection({ lang }: FaqAndContactSectionProps) {
                     <span>
                       {t.quickWa}{' '}
                       <span dir="ltr" className="tabular-metric">
-                        {PERSONAL_WHATSAPP_NUMBER}
+                        {whatsappNumber}
                       </span>
                     </span>
                   </a>
