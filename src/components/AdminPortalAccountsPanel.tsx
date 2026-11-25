@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import {
   Calendar,
   CheckCircle2,
@@ -372,6 +372,11 @@ export function AdminPortalAccountsPanel({
           dlCsvBtn: 'تنزيل سجل 16 أسبوع بالميلادي والهجري (CSV)',
         };
 
+  const onSessionExpiredRef = useRef(onSessionExpired);
+  onSessionExpiredRef.current = onSessionExpired;
+  const genericErrRef = useRef(t.genericErr);
+  genericErrRef.current = t.genericErr;
+
   const fetchAccounts = useCallback(async () => {
     setLoading(true);
     try {
@@ -379,21 +384,21 @@ export function AdminPortalAccountsPanel({
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       if (response.status === 401) {
-        onSessionExpired();
+        onSessionExpiredRef.current();
         return;
       }
       if (!response.ok) {
-        setFeedback({ type: 'error', text: t.genericErr });
+        setFeedback({ type: 'error', text: genericErrRef.current });
         return;
       }
       const data = (await response.json()) as { accounts?: PortalAccountPublic[] };
       setAccounts(Array.isArray(data.accounts) ? data.accounts : []);
     } catch {
-      setFeedback({ type: 'error', text: t.genericErr });
+      setFeedback({ type: 'error', text: genericErrRef.current });
     } finally {
       setLoading(false);
     }
-  }, [adminToken, onSessionExpired, t.genericErr]);
+  }, [adminToken]);
 
   useEffect(() => {
     void fetchAccounts();
@@ -626,6 +631,7 @@ export function AdminPortalAccountsPanel({
         prev.map((item) => (item.id === selectedAccountId ? data.account : item))
       );
       setWkWeight('');
+      setWkStartDate('');
       setWkGoals('');
       setWkCoachNote('');
 

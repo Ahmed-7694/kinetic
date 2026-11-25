@@ -269,3 +269,57 @@ test('Full HTTP + WebSocket end-to-end: auth gates, full account editing, Week 1
     await srv.close();
   }
 });
+
+test('Reverse proxy X-Forwarded-For isolates login rate-limit buckets per visitor IP', async () => {
+  const srv = await createAppServer({
+    dbPath: ':memory:',
+    legacyDataDir: '',
+    sessionSecret: crypto.randomBytes(32),
+    envUsername: 'coach_admin',
+    envPasscode: 'SuperPass#2026',
+    mountFrontend: 'none',
+  });
+
+  await new Promise<void>((resolve) => srv.httpServer.listen(0, '127.0.0.1', () => resolve()));
+  const address = srv.httpServer.address();
+  assert.ok(address && typeof address === 'object');
+  const baseUrl = `http://127.0.0.1:${address.port}`;
+
+  try {
+    // Exhaust bucket for visitor 203.0.113.10
+    for (let i = 0; i < 25; i++) {
+      const r = await fetch(`${baseUrl}/api/portal/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Forwarded-For': '203.0.113.10',
+        },
+        body: JSON.stringify({ username: 'nobody', password: 'wrong' }),
+      });
+      assert.equal(r.status, 401);
+    }
+
+    const throttled = await fetch(`${baseUrl}/api/portal/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Forwarded-For': '203.0.113.10',
+      },
+      body: JSON.stringify({ username: 'nobody', password: 'wrong' }),
+    });
+    assert.equal(throttled.status, 429);
+
+    // Different visitor IP is unaffected
+    const otherVisitor = await fetch(`${baseUrl}/api/portal/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Forwarded-For': '203.0.113.99',
+      },
+      body: JSON.stringify({ username: 'nobody', password: 'wrong' }),
+    });
+    assert.equal(otherVisitor.status, 401);
+  } finally {
+    await srv.close();
+  }
+});

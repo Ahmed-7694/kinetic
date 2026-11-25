@@ -153,6 +153,20 @@ function asPositiveNumber(val: unknown, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
+function sanitizeImageUrl(val: unknown, fallback: string): string {
+  if (typeof val !== 'string') return fallback;
+  const trimmed = val.trim();
+  if (!trimmed) return fallback;
+  if (
+    (trimmed.startsWith('/') && !trimmed.startsWith('//')) ||
+    trimmed.startsWith('https://') ||
+    trimmed.startsWith('http://')
+  ) {
+    return trimmed;
+  }
+  return fallback;
+}
+
 function mergeLocaleContent(
   defaults: SiteLocaleContent,
   incoming: unknown
@@ -219,19 +233,33 @@ function mergeLocaleContent(
     transSrc && transSrc.length > 0
       ? transSrc
           .filter((item): item is Record<string, unknown> => Boolean(item && typeof item === 'object'))
-          .map((item, idx) => ({
-            id: asNonEmptyString(item.id, `t-custom-${idx + 1}`),
-            clientName: asNonEmptyString(item.clientName, 'Athlete'),
-            cityAndRole: asNonEmptyString(item.cityAndRole, ''),
-            goalCategory: item.goalCategory === 'muscle_gain' ? 'muscle_gain' : 'fat_loss',
-            goalLabel: asNonEmptyString(item.goalLabel, ''),
-            timeframeWeeks: Math.round(asPositiveNumber(item.timeframeWeeks, 12)),
-            startWeightKg: asPositiveNumber(item.startWeightKg, 80),
-            endWeightKg: asPositiveNumber(item.endWeightKg, 75),
-            bodyFatDelta: asNonEmptyString(item.bodyFatDelta, '-5%'),
-            quote: asNonEmptyString(item.quote, ''),
-            programUsed: asNonEmptyString(item.programUsed, 'PRO'),
-          }))
+          .map((item, idx) => {
+            const fallbackDef =
+              defaults.transformations.find((d) => d.id === item.id) ??
+              defaults.transformations[idx % defaults.transformations.length] ??
+              defaults.transformations[0];
+            return {
+              id: asNonEmptyString(item.id, `t-custom-${idx + 1}`),
+              clientName: asNonEmptyString(item.clientName, 'Athlete'),
+              cityAndRole: asNonEmptyString(item.cityAndRole, ''),
+              goalCategory: item.goalCategory === 'muscle_gain' ? 'muscle_gain' : 'fat_loss',
+              goalLabel: asNonEmptyString(item.goalLabel, ''),
+              timeframeWeeks: Math.round(asPositiveNumber(item.timeframeWeeks, 12)),
+              startWeightKg: asPositiveNumber(item.startWeightKg, 80),
+              endWeightKg: asPositiveNumber(item.endWeightKg, 75),
+              bodyFatDelta: asNonEmptyString(item.bodyFatDelta, '-5%'),
+              quote: asNonEmptyString(item.quote, ''),
+              programUsed: asNonEmptyString(item.programUsed, 'PRO'),
+              beforeImageUrl: sanitizeImageUrl(
+                item.beforeImageUrl,
+                fallbackDef?.beforeImageUrl ?? ''
+              ),
+              afterImageUrl: sanitizeImageUrl(
+                item.afterImageUrl,
+                fallbackDef?.afterImageUrl ?? ''
+              ),
+            };
+          })
       : defaults.transformations;
 
   const coachSrc =

@@ -17,6 +17,10 @@ import {
   UserCheck,
   Users,
 } from 'lucide-react';
+import {
+  T1_AFTER_IMAGE_URL,
+  T1_BEFORE_IMAGE_URL,
+} from '../data/coachingData';
 import type { Language } from '../utils/coachingMath';
 import {
   getDefaultSiteContentBundle,
@@ -148,6 +152,8 @@ export function AdminCmsScreen({
           netDelta: 'Net Result Label',
           programUsed: 'Program Used',
           quoteLabel: 'Client Quote',
+          beforeImgLabel: 'Before Photo URL',
+          afterImgLabel: 'After Photo URL',
           coachSecTitle: 'Head Coach Profile & Weekly Split',
           coachName: 'Coach Name',
           coachTitle: 'Title / Specialty',
@@ -232,6 +238,8 @@ export function AdminCmsScreen({
           netDelta: 'صافي التغيير',
           programUsed: 'البرنامج المستخدم',
           quoteLabel: 'رأي المشترك',
+          beforeImgLabel: 'رابط صورة قبل',
+          afterImgLabel: 'رابط صورة بعد',
           coachSecTitle: 'بيانات المدرب والجدول الأسبوعي',
           coachName: 'اسم المدرب',
           coachTitle: 'المسمى التخصصي',
@@ -314,7 +322,10 @@ export function AdminCmsScreen({
         onSessionExpired();
         return;
       }
-      if (!res.ok) return;
+      if (!res.ok) {
+        setStatusMessage({ type: 'error', text: t.saveErr });
+        return;
+      }
       const data = await res.json();
       downloadJsonFile('kinetic-peak-admin-full-backup.json', data);
     } catch {
@@ -910,6 +921,8 @@ export function AdminCmsScreen({
                                 ? 'Consistent plan and weekly check-ins made every week count.'
                                 : 'الالتزام بالخطة والمتابعة الأسبوعية صنع الفارق من الشهر الأول.',
                             programUsed: 'PRO',
+                            beforeImageUrl: T1_BEFORE_IMAGE_URL,
+                            afterImageUrl: T1_AFTER_IMAGE_URL,
                           },
                         ],
                       }))
@@ -1085,6 +1098,47 @@ export function AdminCmsScreen({
                               }))
                             }
                             className="w-full rounded-lg bg-[#161B26] border border-white/15 px-3 py-2 text-sm text-white focus:outline-none focus:border-[#E2F124]"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-[#94A3B8] mb-1">
+                            {t.beforeImgLabel}
+                          </label>
+                          <input
+                            type="text"
+                            dir="ltr"
+                            value={item.beforeImageUrl ?? ''}
+                            onChange={(e) =>
+                              updateLocaleField((prev) => ({
+                                ...prev,
+                                transformations: prev.transformations.map((c) =>
+                                  c.id === item.id ? { ...c, beforeImageUrl: e.target.value } : c
+                                ),
+                              }))
+                            }
+                            className="w-full rounded-lg bg-[#161B26] border border-white/15 px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E2F124]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-[#94A3B8] mb-1">
+                            {t.afterImgLabel}
+                          </label>
+                          <input
+                            type="text"
+                            dir="ltr"
+                            value={item.afterImageUrl ?? ''}
+                            onChange={(e) =>
+                              updateLocaleField((prev) => ({
+                                ...prev,
+                                transformations: prev.transformations.map((c) =>
+                                  c.id === item.id ? { ...c, afterImageUrl: e.target.value } : c
+                                ),
+                              }))
+                            }
+                            className="w-full rounded-lg bg-[#161B26] border border-white/15 px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E2F124]"
                           />
                         </div>
                       </div>

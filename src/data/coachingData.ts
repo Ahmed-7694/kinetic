@@ -26,6 +26,8 @@ export interface TransformationCase {
   bodyFatDelta: string;
   quote: string;
   programUsed: string;
+  beforeImageUrl?: string;
+  afterImageUrl?: string;
 }
 
 export interface CoachingTier {
@@ -55,6 +57,15 @@ export const HERO_IMAGE_URL = '/src/assets/images/hero_athletic_coach_1795356435
 export const STRENGTH_IMAGE_URL = '/src/assets/images/program_strength_1795356435451.jpg';
 export const CONDITIONING_IMAGE_URL = '/src/assets/images/program_conditioning_1795356435176.jpg';
 export const COACH_PORTRAIT_URL = '/src/assets/images/coach_portrait_1795356435120.jpg';
+
+export const T1_BEFORE_IMAGE_URL = '/src/assets/images/t1_before_fatloss_1795565854875.jpg';
+export const T1_AFTER_IMAGE_URL = '/src/assets/images/t1_after_fatloss_1795565855876.jpg';
+export const T2_BEFORE_IMAGE_URL = '/src/assets/images/t2_before_hypertrophy_1795565856338.jpg';
+export const T2_AFTER_IMAGE_URL = '/src/assets/images/t2_after_hypertrophy_1795565856735.jpg';
+export const T3_BEFORE_IMAGE_URL = '/src/assets/images/t3_before_recomp_1795565857598.jpg';
+export const T3_AFTER_IMAGE_URL = '/src/assets/images/t3_after_recomp_1795565857623.jpg';
+export const T4_BEFORE_IMAGE_URL = '/src/assets/images/t4_before_athletic_1795565857588.jpg';
+export const T4_AFTER_IMAGE_URL = '/src/assets/images/t4_after_athletic_1795565857586.jpg';
 
 export const KPI_HIGHLIGHTS = [
   { value: '+1,420', label: 'متدرب أتمّوا برامجهم بنجاح' },
@@ -303,6 +314,8 @@ export const TRANSFORMATION_CASES: TransformationCase[] = [
     quote:
       'كنت أعمل 10 ساعات يومياً وأعاني من آلام أسفل الظهر. الخطة اختصرت تمريني إلى 45 دقيقة أربع مرات بالأسبوع مع وجبات واضحة دون تعقيد.',
     programUsed: 'باقة PRO · بروتوكول التنشيف',
+    beforeImageUrl: T1_BEFORE_IMAGE_URL,
+    afterImageUrl: T1_AFTER_IMAGE_URL,
   },
   {
     id: 't2',
@@ -317,6 +330,8 @@ export const TRANSFORMATION_CASES: TransformationCase[] = [
     quote:
       'أول مرة أزيد وزني بدون تراكم دهون البطن. المتابعة الأسبوعية وتعديل الأوزان في البوابة جعلت التطور مضموناً.',
     programUsed: 'باقة ELITE · مختبر التضخيم',
+    beforeImageUrl: T2_BEFORE_IMAGE_URL,
+    afterImageUrl: T2_AFTER_IMAGE_URL,
   },
   {
     id: 't3',
@@ -331,6 +346,8 @@ export const TRANSFORMATION_CASES: TransformationCase[] = [
     quote:
       'أهم ميزة كانت المراجعة المباشرة لفيديوهات تماريني. صححت تكنيك السكوات والديدلفت وارتفعت أرقامي رغم العجز الحراري.',
     programUsed: 'باقة PRO · التنشيف الذكي',
+    beforeImageUrl: T3_BEFORE_IMAGE_URL,
+    afterImageUrl: T3_AFTER_IMAGE_URL,
   },
   {
     id: 't4',
@@ -345,6 +362,8 @@ export const TRANSFORMATION_CASES: TransformationCase[] = [
     quote:
       'الجمع بين تمارين المقاومة والتكييف الأيضي انعكس فوراً على سرعتي وثباتي في الملعب طوال الـ 90 دقيقة.',
     programUsed: 'باقة ELITE · الأداء المتكامل',
+    beforeImageUrl: T4_BEFORE_IMAGE_URL,
+    afterImageUrl: T4_AFTER_IMAGE_URL,
   },
 ];
 
@@ -362,6 +381,8 @@ const TRANSFORMATION_CASES_EN: TransformationCase[] = [
     quote:
       'Working 10-hour shifts with lower-back stiffness, the 45-minute 4-day split and clear meal swaps fit seamlessly into my week.',
     programUsed: 'PRO Tier · Shred Protocol',
+    beforeImageUrl: T1_BEFORE_IMAGE_URL,
+    afterImageUrl: T1_AFTER_IMAGE_URL,
   },
   {
     id: 't2',
@@ -376,6 +397,8 @@ const TRANSFORMATION_CASES_EN: TransformationCase[] = [
     quote:
       'For the first time I gained weight cleanly without waist fat. Weekly check-ins and load targets kept every block moving forward.',
     programUsed: 'ELITE Tier · Hypertrophy Lab',
+    beforeImageUrl: T2_BEFORE_IMAGE_URL,
+    afterImageUrl: T2_AFTER_IMAGE_URL,
   },
   {
     id: 't3',
@@ -390,6 +413,8 @@ const TRANSFORMATION_CASES_EN: TransformationCase[] = [
     quote:
       'Form reviews on my squat and deadlift videos made all the difference—my lifts went up even while cutting calories.',
     programUsed: 'PRO Tier · Smart Cut',
+    beforeImageUrl: T3_BEFORE_IMAGE_URL,
+    afterImageUrl: T3_AFTER_IMAGE_URL,
   },
   {
     id: 't4',
@@ -404,6 +429,8 @@ const TRANSFORMATION_CASES_EN: TransformationCase[] = [
     quote:
       'Combining resistance work with turf conditioning translated directly into my sprint speed and 90-minute match stamina.',
     programUsed: 'ELITE Tier · Integrated Output',
+    beforeImageUrl: T4_BEFORE_IMAGE_URL,
+    afterImageUrl: T4_AFTER_IMAGE_URL,
   },
 ];
 

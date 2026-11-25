@@ -29,6 +29,10 @@ export function PortalChatPanel({
   const [errorText, setErrorText] = useState('');
   const wsRef = useRef<WebSocket | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const onAuthExpiredRef = useRef(onAuthExpired);
+  onAuthExpiredRef.current = onAuthExpired;
+  const onMessagesLoadedRef = useRef(onMessagesLoaded);
+  onMessagesLoadedRef.current = onMessagesLoaded;
 
   const t =
     lang === 'en'
@@ -70,8 +74,8 @@ export function PortalChatPanel({
   }, []);
 
   useEffect(() => {
-    onMessagesLoaded?.(messages);
-  }, [messages, onMessagesLoaded]);
+    onMessagesLoadedRef.current?.(messages);
+  }, [messages]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -94,7 +98,7 @@ export function PortalChatPanel({
     })
       .then(async (res) => {
         if (res.status === 401) {
-          onAuthExpired?.();
+          onAuthExpiredRef.current?.();
           return;
         }
         if (!res.ok) return;
@@ -110,7 +114,7 @@ export function PortalChatPanel({
     return () => {
       active = false;
     };
-  }, [restEndpoint, token, onAuthExpired]);
+  }, [restEndpoint, token]);
 
   useEffect(() => {
     let disposed = false;
@@ -163,7 +167,7 @@ export function PortalChatPanel({
         setConnected(false);
 
         if (event.code === 4401 || event.code === 4403) {
-          onAuthExpired?.();
+          onAuthExpiredRef.current?.();
           return;
         }
 
@@ -172,7 +176,7 @@ export function PortalChatPanel({
           fetch(restEndpoint, { headers: { Authorization: `Bearer ${token}` } })
             .then((res) => {
               if (!disposed && (res.status === 401 || res.status === 403)) {
-                onAuthExpired?.();
+                onAuthExpiredRef.current?.();
               }
             })
             .catch(() => {
@@ -200,7 +204,7 @@ export function PortalChatPanel({
       }
       setConnected(false);
     };
-  }, [token, accountId, restEndpoint, mergeIncomingMessage, onAuthExpired]);
+  }, [token, accountId, restEndpoint, mergeIncomingMessage]);
 
   const handleSend = async (e: FormEvent) => {
     e.preventDefault();
@@ -233,7 +237,7 @@ export function PortalChatPanel({
         body: JSON.stringify({ body: trimmed }),
       });
       if (res.status === 401) {
-        onAuthExpired?.();
+        onAuthExpiredRef.current?.();
         return;
       }
       if (!res.ok) {

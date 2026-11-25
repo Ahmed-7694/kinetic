@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Navbar, type AppScreen } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ProgramsSection } from './components/ProgramsSection';
@@ -248,17 +248,25 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const progressSeqRef = useRef(0);
+  const completedExerciseIdsRef = useRef(completedExerciseIds);
+  completedExerciseIdsRef.current = completedExerciseIds;
+  const portalSessionRef = useRef(portalSession);
+  portalSessionRef.current = portalSession;
+
   const syncPortalProgressToServer = async (
     nextExercises: string[],
     nextGoals?: PortalWeeklyGoal[]
   ) => {
-    if (!portalSession) return;
+    const activeSession = portalSessionRef.current;
+    if (!activeSession) return;
+    const seq = ++progressSeqRef.current;
     try {
       const response = await fetch('/api/portal/progress', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${portalSession.token}`,
+          Authorization: `Bearer ${activeSession.token}`,
         },
         body: JSON.stringify({
           completedExerciseIds: nextExercises,
@@ -269,7 +277,7 @@ export default function App() {
         setPortalSession(null);
         return;
       }
-      if (response.ok) {
+      if (response.ok && seq === progressSeqRef.current) {
         const data = (await response.json()) as { account?: PortalAccountPublic };
         if (data.account) {
           setPortalSession((prev) => (prev ? { ...prev, account: data.account! } : prev));
@@ -282,7 +290,8 @@ export default function App() {
 
   const handlePortalAuthenticated = (session: PortalSession) => {
     setPortalSession(session);
-    setCompletedExerciseIds(session.account.completedExerciseIds ?? []);
+    completedExerciseIdsRef.current = session.account.completedExerciseIds ?? [];
+    setCompletedExerciseIds(completedExerciseIdsRef.current);
     setWeightCheckIns(
       session.account.weightCheckIns && session.account.weightCheckIns.length > 0
         ? session.account.weightCheckIns
@@ -292,29 +301,39 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handlePortalSignOut = () => {
+  const handlePortalSignOut = useCallback(() => {
     setPortalSession(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
+
+  const handleAdminSessionExpired = useCallback(() => {
+    setAdminSession(null);
+    setAdminModalOpen(true);
+  }, []);
 
   const handleToggleExercise = (exerciseId: string) => {
-    const nextExercises = completedExerciseIds.includes(exerciseId)
-      ? completedExerciseIds.filter((id) => id !== exerciseId)
-      : [...completedExerciseIds, exerciseId];
+    const current = completedExerciseIdsRef.current;
+    const nextExercises = current.includes(exerciseId)
+      ? current.filter((id) => id !== exerciseId)
+      : [...current, exerciseId];
+    completedExerciseIdsRef.current = nextExercises;
     setCompletedExerciseIds(nextExercises);
-    void syncPortalProgressToServer(nextExercises);
+    const currentGoals = portalSessionRef.current?.account.weeklyGoals;
+    void syncPortalProgressToServer(nextExercises, currentGoals);
   };
 
   const handleResetExercises = () => {
+    completedExerciseIdsRef.current = [];
     setCompletedExerciseIds([]);
-    void syncPortalProgressToServer([]);
+    const currentGoals = portalSessionRef.current?.account.weeklyGoals;
+    void syncPortalProgressToServer([], currentGoals);
   };
 
   const handleUpdateWeeklyGoals = (goals: PortalWeeklyGoal[]) => {
     setPortalSession((prev) =>
       prev ? { ...prev, account: { ...prev.account, weeklyGoals: goals } } : prev
     );
-    void syncPortalProgressToServer(completedExerciseIds, goals);
+    void syncPortalProgressToServer(completedExerciseIdsRef.current, goals);
   };
 
   const handleAddWeekRecord = async (payload: {
@@ -470,10 +489,7 @@ export default function App() {
           onResetContent={handleResetCmsContent}
           onBackToSite={() => handleNavigateScreen('landing')}
           onSignOut={handleAdminSignOut}
-          onSessionExpired={() => {
-            setAdminSession(null);
-            setAdminModalOpen(true);
-          }}
+          onSessionExpired={handleAdminSessionExpired}
         />
       )}
 

@@ -69,6 +69,7 @@ export async function createAppServer(options: AppServerOptions = {}) {
   const getEnvPasscode = () => options.envPasscode ?? process.env.ADMIN_PASSCODE;
 
   const app = express();
+  app.set('trust proxy', 1);
   app.disable('x-powered-by');
   app.use((_req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');

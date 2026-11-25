@@ -327,6 +327,7 @@ export function ClientPortalScreen({
     }
 
     setNewWeightInput('');
+    setNewStartDateInput('');
     setNewGoalsSummaryInput('');
     setNewWeightNote('');
 
@@ -344,7 +345,9 @@ export function ClientPortalScreen({
     const res = await fetch('/api/portal/export', {
       headers: { Authorization: `Bearer ${portalToken}` },
     });
-    if (res.ok) {
+    if (res.status === 401) {
+      onSignOut();
+    } else if (res.ok) {
       return (await res.json()) as {
         account: PortalAccountPublic;
         chatMessages: PortalChatMessage[];

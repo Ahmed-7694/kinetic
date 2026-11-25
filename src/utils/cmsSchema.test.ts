@@ -108,3 +108,38 @@ test('validatePortalLoginInput catches empty username or password', () => {
   assert.ok(errs.password);
   assert.deepEqual(validatePortalLoginInput('athlete_01', 'sDf', 'en'), {});
 });
+
+test('mergeSiteContentBundle preserves transformation before/after image URLs and falls back for legacy entries', () => {
+  const defaults = getDefaultSiteContentBundle();
+  const merged = mergeSiteContentBundle({
+    ar: {
+      transformations: [
+        {
+          id: 't1',
+          clientName: 'فيصل العتيبي',
+          cityAndRole: 'الرياض',
+          goalCategory: 'fat_loss',
+          goalLabel: 'تنشيف',
+          timeframeWeeks: 14,
+          startWeightKg: 96.4,
+          endWeightKg: 81.2,
+          bodyFatDelta: '-11.5%',
+          quote: 'نتيجة ممتازة',
+          programUsed: 'PRO',
+        },
+        {
+          id: 't-custom',
+          clientName: 'خالد',
+          beforeImageUrl: 'javascript:alert(1)',
+          afterImageUrl: 'https://cdn.example.com/after.jpg',
+        },
+      ],
+    },
+  });
+
+  assert.equal(merged.ar.transformations[0]?.beforeImageUrl, defaults.ar.transformations[0]?.beforeImageUrl);
+  assert.equal(merged.ar.transformations[0]?.afterImageUrl, defaults.ar.transformations[0]?.afterImageUrl);
+  assert.equal(merged.ar.transformations[1]?.beforeImageUrl, defaults.ar.transformations[1]?.beforeImageUrl);
+  assert.equal(merged.ar.transformations[1]?.afterImageUrl, 'https://cdn.example.com/after.jpg');
+});
+
